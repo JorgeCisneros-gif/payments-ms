@@ -1,0 +1,33 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { Logger, RawBody, ValidationPipe } from '@nestjs/common';
+import { envs } from './config';
+import * as bodyParser from 'body-parser';
+
+
+async function bootstrap() {
+
+  const logger = new Logger('Payments-ms')
+
+
+
+  const app = await NestFactory.create(AppModule);
+
+app.useGlobalPipes(
+ new ValidationPipe({
+ whitelist: true,
+ forbidNonWhitelisted: true,
+ })
+);
+
+  app.use(
+    '/payments/webhook',
+    bodyParser.raw({ type: 'application/json' }),
+  );
+
+  
+  await app.listen(envs.port );
+  logger.log(`Payments-ms is running on port ${envs.port}`);
+
+}
+bootstrap();
