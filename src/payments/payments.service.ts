@@ -33,8 +33,8 @@ const line_items = items.map(item => ({
     },
     line_items: line_items,
     mode: 'payment',
-    success_url: 'http://localhost:3003/payments/success',
-    cancel_url: 'http://localhost:3003/payments/cancel',
+    success_url: envs.stripSuccessUrl,
+    cancel_url: envs.stripCancelUrl,
   });
 
   return session;
